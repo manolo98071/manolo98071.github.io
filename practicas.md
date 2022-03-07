@@ -64,9 +64,9 @@ Primeros pasos con Ansible y AWS.
 Vagrant. slides | pdf
 # Prácticas de desarrollo web
 ## Páginas estáticas
-### Práctica 1: Git y GitHub
-### Práctica 2: Creación de blogs con Jekyll y GitHub Pages. slides | pdf
-### Práctica 3: Creación de sitios web con MkDocs y GitHub Pages. slides | pdf
+Práctica 1: Git y GitHub
+Práctica 2: Creación de blogs con Jekyll y GitHub Pages. slides | pdf
+Práctica 3: Creación de sitios web con MkDocs y GitHub Pages. slides | pdf
 ## PHP
-### Prácticas de introducción a PHP. slides | pdf
-### Proyecto final en PHP. slides | pdf
+Prácticas de introducción a PHP. slides | pdf
+Proyecto final en PHP. slides | pdf
