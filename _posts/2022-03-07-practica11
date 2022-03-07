@@ -1,0 +1,139 @@
+---
+layout: post
+title:  "Auditoría de seguridad en Wordpress"
+date:   2022-03-07 05:17:47
+categories: practica11
+---
+
+# **Práctica 11:** Auditoría de seguridad en WordPress con WPScan
+Pasos previos al escaneo
+
+Instalamos Docker si no lo tenemos:
+
+    sudo apt install docker docker-compose
+
+Al descargarlo, añadimos al usuario en el grupo de usuarios de Docker:
+
+    sudo usermod -aG docker $USER
+Habilitamos el servicio y lo arrancamos:
+
+    sudo systemctl enable docker
+    sudo systemctl start docker
+Ahora tenemos que crear un contenedor para poner en funcionamiento el WPScan, para descargar la imagen usamos este comando:
+
+    docker pull wpscanteam/wpscan
+
+## Escaneo con WPScan
+
+Para ejecutar el escáner WPScan, vamos a utilizar una API de WPScan, que nos permite detectar vulnerabilidades haciendo uso de su base de datos de vulnerabilidades.
+
+Para poder hacer uso del servicio de la API de WPScan,es necesario registrarse en su web y obtener un TOKEN.
+
+![]({{ site.url }})/images/2022-03-07-practica11/1.JPG
+
+Una vez tenemos el token, vamos a ejecutar el siguiente comando:
+
+    docker run -it --rm wpscanteam/wpscan --url http://iawpracticawpcli.ddns.net --api-token eaJcEwkdJLsWWJw7rxIgEmZpaM0yvHdeELbadT87718
+El resultado se encuentra en el fichero wpscan.txt,q ue contiene:
+
+_______________________________________________________________
+         __          _______   _____
+         \ \        / /  __ \ / ____|
+          \ \  /\  / /| |__) | (___   ___  __ _ _ __ ®
+           \ \/  \/ / |  ___/ \___ \ / __|/ _` | '_ \
+            \  /\  /  | |     ____) | (__| (_| | | | |
+             \/  \/   |_|    |_____/ \___|\__,_|_| |_|
+
+         WordPress Security Scanner by the WPScan Team
+                         Version 3.8.20
+       Sponsored by Automattic - https://automattic.com/
+       @_WPScan_, @ethicalhack3r, @erwan_lr, @firefart
+_______________________________________________________________
+
+    [i] It seems like you have not updated the database for some time.
+    [?] Do you want to update now? [Y]es [N]o, default: [N]n
+    [+] URL: http://iawpracticawpcli.ddns.net/ [3.208.238.233]
+    [+] Effective URL: https://iawpracticawpcli.ddns.net/
+    [+] Started: Mon Feb 14 07:42:35 2022
+
+    Interesting Finding(s):
+
+    [+] Headers
+    | Interesting Entry: Server: Apache/2.4.41 (Ubuntu)
+    | Found By: Headers (Passive Detection)
+    | Confidence: 100%
+
+    Fingerprinting the version - Time: 00:00:13 <==============================================================================================================================================================================================> (581 / 581) 100.00% Time: 00:00:13
+    [i] The WordPress version could not be detected.
+
+    [+] WordPress theme in use: inspiro
+    | Location: http://iawpracticawpcli.ddns.net/wp-content/themes/inspiro/
+    | Latest Version: 1.7.0
+    | Last Updated: 2022-02-10T00:00:00.000Z
+    | Style URL: http://iawpracticawpcli.ddns.net/wp-content/themes/inspiro/style.css
+    |
+    | Found By: Urls In Homepage (Passive Detection)
+    |
+    | The version could not be determined.
+
+    [+] Enumerating All Plugins (via Passive Methods)
+    [+] Checking Plugin Versions (via Passive and Aggressive Methods)
+
+    [i] Plugin(s) Identified:
+
+    [+] contact-form-7
+    | Location: http://iawpracticawpcli.ddns.net/wp-content/plugins/contact-form-7/
+    | Latest Version: 5.5.5 (up to date)
+    | Last Updated: 2022-02-13T05:13:00.000Z
+    |
+    | Found By: Urls In Homepage (Passive Detection)
+    |
+    | Version: 5.5.5 (10% confidence)
+    | Found By: Query Parameter (Passive Detection)
+    |  - https://iawpracticawpcli.ddns.net/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=5.5.5
+
+    [+] gdpr
+    | Location: http://iawpracticawpcli.ddns.net/wp-content/plugins/gdpr/
+    | Latest Version: 2.1.2
+    | Last Updated: 2020-05-14T01:03:00.000Z
+    |
+    | Found By: Urls In Homepage (Passive Detection)
+    |
+    | The version could not be determined.
+
+    [+] woocommerce
+    | Location: http://iawpracticawpcli.ddns.net/wp-content/plugins/woocommerce/
+    | Latest Version: 6.2.0 (up to date)
+    | Last Updated: 2022-02-10T13:29:00.000Z
+    |
+    | Found By: Urls In Homepage (Passive Detection)
+    | Confirmed By: Meta Generator (Passive Detection)
+    |
+    | Version: 6.2.0 (100% confidence)
+    | Found By: Query Parameter (Passive Detection)
+    |  - https://iawpracticawpcli.ddns.net/wp-content/plugins/woocommerce/assets/css/woocommerce-layout.css?ver=6.2.0
+    |  - https://iawpracticawpcli.ddns.net/wp-content/plugins/woocommerce/assets/css/woocommerce-smallscreen.css?ver=6.2.0
+    |  - https://iawpracticawpcli.ddns.net/wp-content/plugins/woocommerce/assets/css/woocommerce.css?ver=6.2.0
+    |  - https://iawpracticawpcli.ddns.net/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.min.js?ver=6.2.0
+    |  - https://iawpracticawpcli.ddns.net/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min.js?ver=6.2.0
+    |  - https://iawpracticawpcli.ddns.net/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.min.js?ver=6.2.0
+    | Confirmed By: Meta Generator (Passive Detection)
+    |  - https://iawpracticawpcli.ddns.net/, Match: 'WooCommerce 6.2.0'
+
+    [+] Enumerating Config Backups (via Passive and Aggressive Methods)
+    Checking Config Backups - Time: 00:00:02 <================================================================================================================================================================================================> (137 / 137) 100.00% Time: 00:00:02
+
+    [i] No Config Backups Found.
+
+    [+] WPScan DB API OK
+    | Plan: free
+    | Requests Done (during the scan): 4
+    | Requests Remaining: 21
+
+    [+] Finished: Mon Feb 14 07:43:03 2022
+    [+] Requests Done: 778
+    [+] Cached Requests: 3
+    [+] Data Sent: 245.494 KB
+    [+] Data Received: 300.707 KB
+    [+] Memory used: 293.445 MB
+    [+] Elapsed time: 00:00:27
