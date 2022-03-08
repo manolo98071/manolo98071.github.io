@@ -29,7 +29,7 @@ Para ejecutar el escáner WPScan, vamos a utilizar una API de WPScan, que nos pe
 
 Para poder hacer uso del servicio de la API de WPScan,es necesario registrarse en su web y obtener un TOKEN.
 
-![]({{ site.url }})/images/2022-03-07-practica11/1.JPG
+![]({{ site.url }}/images/2022-03-07-practica11/1.JPG)
 
 Una vez tenemos el token, vamos a ejecutar el siguiente comando:
 
